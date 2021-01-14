@@ -21,7 +21,9 @@
         <div class="col-11"> <!-- 질문영역 -->
             <div class="card">
                 <div class="card-body">
-                    <div class="card-text">{{ question.content|mark }}</div>
+                    {% autoescape off %}
+                    <div class="card-text">{{ question.content|escape|mark }}</div>
+                    {% endautoescape %}
                     <div class="d-flex justify-content-end">
                         {% if question.modify_date %}
                         <div class="badge badge-light p-2 text-left mx-3">
@@ -85,7 +87,9 @@
         <div class="col-11">  <!-- 답변영역 -->
             <div class="card">
                 <div class="card-body">
-                    <div class="card-text">{{ answer.content|mark }}</div>
+                    {% autoescape off %}
+                    <div class="card-text">{{ answer.content|escape|mark }}</div>
+                    {% endautoescape %}
                     <div class="d-flex justify-content-end">
                         {% if answer.modify_date %}
                         <div class="badge badge-light p-2 text-left mx-3">
