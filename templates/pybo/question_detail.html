@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <!-- {% autoescape off %} -->
                     <!-- <div class="card-text">{{ question.content|escape|mark }}</div> -->
-                    <div class="card-text">{{ question.content|mark }}</div>
+                    <div class="card-text question_content">{{ question.content|mark }}</div>
                     <!-- {% endautoescape %} -->
                     <div class="d-flex justify-content-end">
                         {% if question.modify_date %}
