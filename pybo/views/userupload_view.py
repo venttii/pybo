@@ -16,14 +16,16 @@ def index(request):
     
     logger.info('유저업로드')
 
+    page = request.GET.get('page', '1')  # 페이지
+
     board_list = Board.objects.order_by('-create_date')
 
     paginator = Paginator(board_list, 10) # 15개씩 보여주기
-    board_list = paginator.get_page(1)
+    board_list = paginator.get_page(page)
 
     print(board_list)
     
-    context = { 'board_list': board_list}
+    context = { 'board_list': board_list, 'page': page}
     return render(request, 'pybo/userupload.html', context)
 
 def detail(request, userupload_id):
