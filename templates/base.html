@@ -21,7 +21,9 @@
     <!-- pybo CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <script src="https://kit.fontawesome.com/f2e29252cb.js" crossorigin="anonymous"></script>
+    {% block title %}      <!-- 페이지별 타이틀 공간 -->
     <title>Ventti</title>
+    {% endblock title %}
 </head>
 <body>
 {% include "header.html" %}
