@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="indexsection">
+    <div class="" id="content">
+        <div class="indexcontent" >
+            <h1>Guest Book</h1>
+
+            <!-- 방명록 쓰기 Start -->
+            <form action="{% url 'pybo:guestbook_create' %}" method="post">
+                {% csrf_token %}
+                {% include "form_errors.html" %}
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <input type="text" class="form-control form-control-sm" placeholder="이름" name="author" value="{{ user.username|default_if_none:'' }}">
+                    </div>
+                    <div class="col-2">
+                        <input type="password" class="form-control form-control-sm" placeholder="암호" name="passwd">
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <textarea class="form-control col-6" placeholder="방명록 남기기" rows="3" name="content"></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark">등록</button>
+            </form>
+            <!-- 방명록 쓰기 End-->
+            {% if guestbook_list %}
+            <div id="commentarea">
+                <table id="commenttable">
+                    <colgroup>
+                        <col style="width: 15%;">
+                        <col style="width: 65%;">
+                        <col style="width: 15%;">
+                    </colgroup>
+                    <tbody>
+                        {% for guestbook in guestbook_list %}
+                        <tr class="comment 73015" id="73015">
+                            <td class="comment-author"><span>{{ guestbook.author }}</span></td>
+
+                            <td class="content"><span>{{ guestbook.content }}</span>&nbsp;&nbsp;&nbsp;<span class="ipaddr">{{ guestbook.ip_address }}</span></td>
+                            <td class="comment-date">
+                                <span>{{ guestbook.create_date }}</span>
+                            </td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+
+var myModal = document.getElementById('myModal')
+var myInput = document.getElementById('myInput')
+
+myModal.addEventListener('shown.bs.modal', function () {
+  myInput.focus()
+})
+
+</script>
+{% endblock %}

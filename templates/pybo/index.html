@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load pybo_filter %}
+{% block content %}
+<section id="indexsection">
+    <div id="content" class="blog_main">
+        <div class="indexcontent" id="guestbook">
+            <h1>Guest Book</h1>
+            <div>
+                <div id="commentarea">
+                    <a href="{% url 'pybo:guestbook' %}">
+                        <p class="go_to_guestbook">방명록 남기기</p>
+                    </a>
+                    {% if guestbook_list %}
+                    <table id="commenttable">
+                        <colgroup>
+                            <col style="width: 15%;">
+                            <col style="width: 65%;">
+                            <col style="width: 15%;">
+                        </colgroup>
+                        <tbody>
+                            {% for guestbook in guestbook_list %}
+                            <tr class="comment 73015" id="73015">
+                                <td class="comment-author"><span>{{ guestbook.author }}</span></td>
+    
+                                <td class="content"><span>{{ guestbook.content }}</span>&nbsp;&nbsp;&nbsp;<span class="ipaddr">{{ guestbook.ip_address }}</span></td>
+                                <td class="comment-date">
+                                    <span>{{ guestbook.create_date }}</span>
+                                </td>
+                                
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="indexcontent" id="recent_posts">
+            <h1>Recent Posts</h1>
+            <a id="showall" href="/all/"><span>All Posts &nbsp;&gt;</span></a>
+            {% if board_list %}
+            <table id="desktop_post_list" class="table">
+                <colgroup>
+                    <col class="text-center" style="width: 5%;">
+                    <!-- <col class="text-center" style="width: 15%;"> -->
+                    <col style="">
+                    <col style="width: 20%;">
+                    <col style="width: 10%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="text-center">번호</th>
+                    <!-- <th class="text-center">카테고리</th> -->
+                    <th class="text-center">글 제목</th>
+                    <th class="text-center">작성일</th>
+                    <th class="text-center">조회수</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for board in board_list %}
+                    <tr id="2" class="post_index">
+                        <td class="text-center">{{board.id}}</td>
+                        <!-- <td class="text-center">{{board.category_id}}</td> -->
+                        <td><a href="/post/2">&nbsp;&nbsp;&nbsp;&nbsp;{{board.subject}}</a>&nbsp;&nbsp;<span class="noc">(3)</span></td>
+                        <td class="text-center">{{ board.create_date }}</td>
+                        <td class="text-center">{{ board.view_count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".page-link").on('click', function() {
+        $("#page").val($(this).data("page"));
+        $("#searchForm").submit();
+    });
+
+    $("#btn_search").on('click', function() {
+        $("#kw").val($(".kw").val());
+        $("#page").val(1);  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
+        $("#searchForm").submit();
+    });
+
+    $(".so").on('change', function() {
+        $("#so").val($(this).val());
+        $("#page").val(1);
+        $("#searchForm").submit();
+    });
+});
+</script>
+{% endblock %}

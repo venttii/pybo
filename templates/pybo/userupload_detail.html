@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load pybo_filter %}
+{% block content %}
+<section id="indexsection">
+    <div id="content" class="blog_main">
+        <div class="indexcontent" id="guestbook">
+            <h1>유저 업로드</h1>
+            <div>
+                <div class="board_top">
+                    <div class="board_header">
+                        <div class="board_title">
+                            {{ board.subject }}
+                        </div>
+                        <div class="count_container">
+                            <i class="far fa-eye"></i>
+                            <span class="view_count ml-1">{{ board.view_count }}</span>
+                        </div>
+                    </div>
+                    <div class="board_clear">
+                        <div class="board_author">{{ board.author }}</div>
+                        <div class="board_date">{{ board.create_date }}</div>
+                    </div>
+                </div>
+                <div class="board_content">
+                    {{ board.content|mark }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from pybo.models import Question, Answer, Comment
+from pybo.models import Question, Answer, Comment, Guestbook
 
 
 class QuestionForm(forms.ModelForm):
@@ -17,6 +17,16 @@ class AnswerForm(forms.ModelForm):
         fields = ['content']
         labels = {
             'content': '답변내용',
+        }
+
+class GuestbookForm(forms.ModelForm):
+    class Meta:
+        model = Guestbook
+        fields = ['author', 'content', 'passwd']
+        labels = {
+            'author': '작성자',
+            'content': '방명록 내용',
+            'passwd': '패스워드',
         }
 
 class CommentForm(forms.ModelForm):

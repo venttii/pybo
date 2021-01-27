@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<section id="indexsection">
+    <div id="content" class="blog_main">
+        <div class="indexcontent" id="guestbook">
+            <h1>유저 업로드</h1>
+            {% if board_list %}
+            <table id="desktop_post_list" class="table">
+                <colgroup>
+                    <col class="text-center" style="width: 5%;">
+                    <!-- <col class="text-center" style="width: 15%;"> -->
+                    <col style="">
+                    <col style="width: 20%;">
+                    <col style="width: 10%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="text-center">번호</th>
+                    <!-- <th class="text-center">카테고리</th> -->
+                    <th class="text-center">글 제목</th>
+                    <th class="text-center">작성일</th>
+                    <th class="text-center">조회수</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for board in board_list %}
+                    <tr id="2" class="post_index">
+                        <td class="text-center">{{board.id}}</td>
+                        <!-- <td class="text-center">{{board.category_id}}</td> -->
+                        <td><a href="{% url 'pybo:userupload_detail' board.id %}" class="board_subject">&nbsp;&nbsp;&nbsp;&nbsp;{{board.subject}}</a>&nbsp;&nbsp;<span class="noc">(3)</span></td>
+                        <td class="text-center">{{ board.create_date }}</td>
+                        <td class="text-center">{{ board.view_count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

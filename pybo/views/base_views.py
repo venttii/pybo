@@ -1,4 +1,4 @@
-from ..models import Question
+from ..models import Question, Guestbook, Board
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
 from django.shortcuts import render, get_object_or_404
@@ -9,35 +9,56 @@ def index(request):
     """
     pybo 목록 출력
     """
+    
+    logger.info('pybo')
 
-    logger.info('INFO 레벨로 출력')
+    guestbook_list = Guestbook.objects.order_by('-create_date')
+    board_list = Board.objects.order_by('-create_date')
 
-    # 입력 파라미터
-    page = request.GET.get('page', '1')  # 페이지
-    kw = request.GET.get('kw', '')  # 검색어
-    so = request.GET.get('so', 'recent')  # 정렬기준
+    paginator = Paginator(guestbook_list, 5) # 5개씩 보여주기
+    guestbook_list = paginator.get_page(1)
 
-    # 정렬
-    if so == 'recommend':
-        question_list = Question.objects.annotate(num_voter=Count('voter')).order_by('-num_voter', '-create_date')
-    elif so == 'popular':
-        question_list = Question.objects.annotate(num_answer=Count('answer')).order_by('-num_answer', '-create_date')
-    else:  # recent
-        question_list = Question.objects.order_by('-create_date')
+    paginator = Paginator(board_list, 15) # 15개씩 보여주기
+    board_list = paginator.get_page(1)
+
+    print(board_list)
+    
+    context = {'guestbook_list': guestbook_list, 'board_list': board_list}
+    return render(request, 'pybo/index.html', context)
+
+# def index(request):
+#     """
+#     pybo 목록 출력
+#     """
+
+#     logger.info('INFO 레벨로 출력')
+
+#     # 입력 파라미터
+#     page = request.GET.get('page', '1')  # 페이지
+#     kw = request.GET.get('kw', '')  # 검색어
+#     so = request.GET.get('so', 'recent')  # 정렬기준
+
+#     # 정렬
+#     if so == 'recommend':
+#         question_list = Question.objects.annotate(num_voter=Count('voter')).order_by('-num_voter', '-create_date')
+#     elif so == 'popular':
+#         question_list = Question.objects.annotate(num_answer=Count('answer')).order_by('-num_answer', '-create_date')
+#     else:  # recent
+#         question_list = Question.objects.order_by('-create_date')
         
-    # 검색
-    if kw:
-        question_list = question_list.filter(
-            Q(subject__icontains=kw) |  # 제목검색
-            Q(content__icontains=kw) |  # 내용검색
-            Q(author__username__icontains=kw) |  # 질문 글쓴이검색
-            Q(answer__author__username__icontains=kw)  # 답변 글쓴이검색
-        ).distinct()
-    # 페이징 처리
-    paginator = Paginator(question_list, 10) # 페이지당 10개씩 보여주기
-    page_obj = paginator.get_page(page)
-    context = {'question_list': page_obj, 'page': page, 'kw': kw, 'so': so}  # <------ so 추가
-    return render(request, 'pybo/question_list.html', context)
+#     # 검색
+#     if kw:
+#         question_list = question_list.filter(
+#             Q(subject__icontains=kw) |  # 제목검색
+#             Q(content__icontains=kw) |  # 내용검색
+#             Q(author__username__icontains=kw) |  # 질문 글쓴이검색
+#             Q(answer__author__username__icontains=kw)  # 답변 글쓴이검색
+#         ).distinct()
+#     # 페이징 처리
+#     paginator = Paginator(question_list, 10) # 페이지당 10개씩 보여주기
+#     page_obj = paginator.get_page(page)
+#     context = {'question_list': page_obj, 'page': page, 'kw': kw, 'so': so}  # <------ so 추가
+#     return render(request, 'pybo/question_list.html', context)
 
 def detail(request, question_id):
     """
