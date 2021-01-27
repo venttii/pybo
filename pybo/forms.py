@@ -1,10 +1,19 @@
 from django import forms
-from pybo.models import Question, Answer, Comment, Guestbook
+from pybo.models import Question, Answer, Comment, Guestbook, Board
 
 
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
+        fields = ['subject', 'content']
+        labels = {
+            'subject': '제목',
+            'content': '내용',
+        }
+
+class BoardForm(forms.ModelForm):
+    class Meta:
+        model = Board
         fields = ['subject', 'content']
         labels = {
             'subject': '제목',

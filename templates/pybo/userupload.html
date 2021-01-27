@@ -27,7 +27,7 @@
                     <tr id="2" class="post_index">
                         <td class="text-center">{{board.id}}</td>
                         <!-- <td class="text-center">{{board.category_id}}</td> -->
-                        <td><a href="{% url 'pybo:userupload_detail' board.id %}" class="board_subject">&nbsp;&nbsp;&nbsp;&nbsp;{{board.subject}}</a>&nbsp;&nbsp;<span class="noc">(3)</span></td>
+                        <td><a href="{% url 'pybo:userupload_detail' board.id %}" class="board_subject">&nbsp;&nbsp;&nbsp;&nbsp;{{board.subject}}</a>&nbsp;&nbsp;</td>
                         <td class="text-center">{{ board.create_date }}</td>
                         <td class="text-center">{{ board.view_count }}</td>
                     </tr>
@@ -35,6 +35,7 @@
                 </tbody>
             </table>
             {% endif %}
+            <a href="{% url 'pybo:userupload_create' %}" class="btn btn-dark" role="button" data-bs-toggle="button">게시글 작성</a>
         </div>
     </div>
 </div>

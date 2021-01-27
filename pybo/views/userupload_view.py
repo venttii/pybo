@@ -1,7 +1,10 @@
 from ..models import Board, HitCount
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+
+from ..forms import BoardForm
 
 import logging
 logger = logging.getLogger('pybo')
@@ -61,3 +64,31 @@ def detail(request, userupload_id):
     logger.info(board)
     context = {'board': board}
     return render(request, 'pybo/userupload_detail.html', context)
+
+@login_required(login_url='common:login')
+def userupload_create(request):
+    """
+    유저업로드 등록
+    """
+
+    # 접속자 IP 식별 Start
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    # 접속자 IP 식별 End
+
+    if request.method == 'POST':
+        form = BoardForm(request.POST)
+        if form.is_valid():
+            board = form.save(commit=False)
+            board.author = request.user
+            board.create_date = timezone.now()
+            board.ip = ip
+            board.save()
+            return redirect('pybo:userupload')
+    else:
+        form = BoardForm()
+    context = {'form': form}
+    return render(request, 'pybo/board_form.html', context)

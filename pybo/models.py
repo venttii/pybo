@@ -18,7 +18,7 @@ class Board(models.Model):
     create_date = models.DateTimeField()
     modify_date = models.DateTimeField(null=True, blank=True)
     voter = models.ManyToManyField(User, related_name='voter_board')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category_board', default=0)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category_board', default=1)
     view_count = models.IntegerField(default=0)
     notice = models.BooleanField(default=False)  # 공지사항 여부
     ip = models.CharField(max_length=50)

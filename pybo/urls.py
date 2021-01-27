@@ -52,4 +52,5 @@ urlpatterns = [
     # userupload_view.py
     path('userupload/', userupload_view.index, name='userupload'),
     path('userupload/<int:userupload_id>/', userupload_view.detail, name='userupload_detail'),
+    path('userupload/create/', userupload_view.userupload_create, name='userupload_create'),
 ]
