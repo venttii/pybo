@@ -71,6 +71,7 @@ header .navbar-right .nav-link {
   margin: 0 auto;
   display: block;
   clear: both;
+  min-height: 500px;
 }
 
 #indexsection #content .indexcontent {
